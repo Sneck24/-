@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Справочник пользователей</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+<main id="uis">
+ <div class="wrap">
+  <header class="top"><div><div class="eyebrow">Информационная система</div><h1>Справочник пользователей</h1><p>Добавляй пользователей и управляй записями.</p></div><div class="status"><span class="dot" id="status-dot"></span><span id="status-text">Подключение…</span></div></header>
+  <div class="summary"><div class="stat"><div class="label">Всего пользователей</div><strong id="total">—</strong><small>Записей в базе данных</small></div><div class="stat"><div class="label">В текущем списке</div><strong id="found">—</strong><small>С учётом поиска</small></div><div class="stat"><div class="label">Последнее обновление</div><strong id="last-update">—</strong><small>Время на твоём устройстве</small></div></div>
+  <div id="message" role="status" aria-live="polite" hidden></div>
+  <div class="grid">
+   <section class="card"><h2 id="form-title">Новый пользователь</h2><form id="user-form"><div class="field"><label for="name">Имя</label><input id="name" name="name" placeholder="Например, Владислав" required maxlength="100" autocomplete="name"></div><div class="field"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="name@example.com" required maxlength="254" autocomplete="email"><p class="hint">Один email — один пользователь.</p></div><div class="form-buttons"><button class="primary" id="save" type="submit">Добавить пользователя</button><button id="cancel-edit" type="button" hidden>Отмена</button></div></form><p class="note">Запись появляется в списке после сохранения на сервере.</p></section>
+   <section class="card"><h2>Пользователи</h2><div class="toolbar"><input id="search" type="search" placeholder="Поиск по имени или email" aria-label="Поиск по имени или email"><button id="refresh" type="button">Обновить</button></div><div class="table-scroll"><table><thead><tr><th class="id-cell">ID</th><th>Имя / Email</th><th style="text-align:right">Действия</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" hidden>Пользователи не найдены. Добавь запись или измени поиск.</div><div class="footer"><button id="download-db" type="button">Скачать базу .db</button><button id="download-csv" type="button">Экспорт CSV</button></div></section>
+  </div>
+  <details><summary>Для защиты работы: последний запрос и три уровня</summary><p style="margin-top:12px">Клиент: HTML/JavaScript. Сервер: Flask, проверка данных и REST API. Данные: SQLite и параметризованные SQL-запросы. Браузер отправляет HTTP-запросы с JSON в Flask. Сервер обращается к файлу SQLite.</p><pre id="trace">Ожидание запроса…</pre></details>
+  <p class="note">База сохраняется на компьютере в data/users.db. Остановка сервера не удаляет записи. Даты в SQLite записываются в UTC.</p>
+ </div>
+ <div class="modal" id="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title" hidden><div class="modal-box"><h2 id="delete-title">Удалить пользователя?</h2><p id="delete-text"></p><div class="form-buttons"><button id="confirm-delete" class="danger" type="button">Удалить</button><button id="cancel-delete" type="button">Отмена</button></div></div></div>
+</main>
+</body>
+</html>
