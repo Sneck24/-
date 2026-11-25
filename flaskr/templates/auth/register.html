@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label for="username">Логин</label>
+  <input name="username" id="username" maxlength="100" autocomplete="username" value="{{ request.form.get('username', '') }}" required>
+  <label for="password">Пароль: 8–128 символов</label>
+  <input type="password" name="password" id="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+  <button>Зарегистрироваться</button>
+</form>
+<p>После регистрации войди с новым логином и паролем.</p>
+{% endblock %}
