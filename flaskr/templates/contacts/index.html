@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Справочник пользователей{% endblock %}
+{% block content %}
+<a href="{{ url_for('contacts.create') }}">Добавить запись</a>
+<form method="get">
+  <label for="q">Поиск по имени или email</label>
+  <input name="q" id="q" value="{{ query }}">
+  <button>Найти</button>
+  <a href="{{ url_for('index') }}">Сбросить</a>
+</form>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Действия</th></tr></thead>
+  <tbody>
+  {% for user in users %}
+    <tr>
+      <td>{{ user['id'] }}</td><td>{{ user['name'] }}</td><td>{{ user['email'] }}</td>
+      <td><a href="{{ url_for('contacts.update', id=user['id']) }}">Изменить / удалить</a></td>
+    </tr>
+  {% else %}
+    <tr><td colspan="4">Записи не найдены</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

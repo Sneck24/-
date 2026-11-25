@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Изменить запись' if user else 'Новая запись' }}{% endblock %}
+{% block content %}
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label for="name">Имя</label>
+  <input name="name" id="name" maxlength="100" value="{{ request.form.get('name', user['name'] if user else '') }}" required>
+  <label for="email">Email</label>
+  <input name="email" id="email" type="email" maxlength="254" value="{{ request.form.get('email', user['email'] if user else '') }}" required>
+  <button>Сохранить</button>
+  <a href="{{ url_for('index') }}">Отмена</a>
+</form>
+{% if user %}
+  <p>Кнопка ниже окончательно удаляет эту запись.</p>
+  <form action="{{ url_for('contacts.delete', id=user['id']) }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="danger">Удалить запись</button>
+  </form>
+{% endif %}
+{% endblock %}
