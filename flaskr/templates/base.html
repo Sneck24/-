@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %} — Справочник</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <a href="{{ url_for('index') }}">Справочник</a>
+  {% if g.user %}
+    <span>Вы вошли: {{ g.user['username'] }}</span>
+    <form action="{{ url_for('auth.logout') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button>Выйти</button>
+    </form>
+  {% else %}
+    <a href="{{ url_for('auth.register') }}">Регистрация</a>
+    <a href="{{ url_for('auth.login') }}">Вход</a>
+  {% endif %}
+</nav>
+<main>
+  <h1>{{ self.title() }}</h1>
+  {% for message in get_flashed_messages() %}
+    <p class="message" role="status">{{ message }}</p>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>
